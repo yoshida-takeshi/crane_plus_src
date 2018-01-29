@@ -4,7 +4,8 @@
 import rospy
 from std_msgs.msg import Float64
 from dynamixel_msgs.msg import JointState
- 
+
+
 class test_arm:
     def __init__(self):
         rospy.init_node('test_arm', anonymous=True)
@@ -35,20 +36,14 @@ class test_arm:
         t4=0.5
         t5=0.7
         
-        self.wait_move()
         self.move_arm([0,t1,t2,t3,t4,t5],10)
         self.rate.sleep()
+        self.wait_move()
 
         ##loop
-        step = 1
         while(1):
-            #t1=self.tilt1_state.current_pos
-            #t2=self.tilt2_state.current_pos
-            #t3=self.tilt3_state.current_pos
-            #t4=self.tilt4_state.current_pos
-            #t5=self.tilt5_state.current_pos
-
             key = raw_input('key=> ')
+
             if key=="q":
                 break
             elif key=="8": #forward
@@ -76,6 +71,7 @@ class test_arm:
             elif key=="1": #tilt5 open
                 t5=t5-0.05
 
+            #ARM移動
             t1=round(t1,3)
             t2=round(t2,3)
             t3=round(t3,3)
@@ -85,6 +81,7 @@ class test_arm:
             
         exit()
 
+    #ARM移動関数
     def move_arm(self, tilt, step):
         t1_0 = self.tilt1_state.current_pos
         t2_0 = self.tilt2_state.current_pos
@@ -99,7 +96,7 @@ class test_arm:
         rospy.loginfo("Current:[%6.3f,%6.3f,%6.3f,%6.3f,%6.3f]", t1_0,t2_0,t3_0,t4_0,t5_0)
         rospy.loginfo("Goal   :[%6.3f,%6.3f,%6.3f,%6.3f,%6.3f], Step:%d", tilt[1],tilt[2],tilt[3],tilt[4],tilt[5],step)
 
-        for i in range(step):
+        for i in range(1,step+1):
             self.tilt1_pub.publish(t1_0 + t1*i)
             self.tilt2_pub.publish(t2_0 + t2*i)
             self.tilt3_pub.publish(t3_0 + t3*i)
@@ -124,7 +121,7 @@ class test_arm:
         rospy.loginfo("Finish :[%6.3f,%6.3f,%6.3f,%6.3f,%6.3f]", t1_1,t2_1,t3_1,t4_1,t5_1)
 
 
-    #WAIT: is_moving==False
+    #is_movingがFalseになるまでWAIT
     def wait_move(self):
         while (1):
             move_check = 0
@@ -135,6 +132,7 @@ class test_arm:
                 break
 
 
+    #tilt情報を定期的に更新
     def tilt1_Callback(self, tilt1_state):
         self.tilt1_state=tilt1_state
         if tilt1_state.is_moving == True:

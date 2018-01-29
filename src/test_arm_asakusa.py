@@ -29,6 +29,7 @@ class test_arm:
         step1=10
         step2=5
 
+        #筆跡データ
         self.tilt_data = [
             #A
             [step0,  0.200, 0.650,-1.000, 0.650, 0.700], #(1)up
@@ -78,8 +79,8 @@ class test_arm:
             #finish
             [step0*5,  0.000, 0.000, 0.000, 0.000, 0.700]]
 
-        self.rate = rospy.Rate(10)
         self.tilt_moving=[0,1,1,1,1,1]
+        self.rate = rospy.Rate(10)
         self.wait_move()
 
         #init
@@ -114,7 +115,7 @@ class test_arm:
         rospy.loginfo("Current:[%6.3f,%6.3f,%6.3f,%6.3f,%6.3f]", t1_0,t2_0,t3_0,t4_0,t5_0)
         rospy.loginfo("Goal   :[%6.3f,%6.3f,%6.3f,%6.3f,%6.3f], Step:%d", tilt[1],tilt[2],tilt[3],tilt[4],tilt[5],step)
 
-        for i in range(step):
+        for i in range(1,step+1):
             self.tilt1_pub.publish(t1_0 + t1*i)
             self.tilt2_pub.publish(t2_0 + t2*i)
             self.tilt3_pub.publish(t3_0 + t3*i)
