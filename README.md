@@ -4,7 +4,7 @@
   
 ### 起動準備(おまじない)
 `ubuntu% roslaunch crane_plus_src controller_manager.launch`  
-`ubuntu% roslaunch my_dynamixel_tutorial start_tilt_controller.launch`  
+`ubuntu% roslaunch crane_plus_src start_tilt_controller.launch`  
   
   
 ### コマンド操作の場合
