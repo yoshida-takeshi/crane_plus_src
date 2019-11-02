@@ -121,10 +121,10 @@ class move_arm:
     #xyz座標->Tilt(SERVO角度)変換関数
     def xyz2tilt(self):
         #crane2+ ARM距離パラメータ
-        L_B2 = 0.0760	# base_link〜Shoulder(id2)のLink長さ
-        L_23 = 0.0825	# Shoulder(id2)～Elbow(id3)のLink長さ
-        L_34 = 0.0940	# Elbow(id3)〜Wrist(id4)のLink長さ
-        L_4G = 0.1000	# Wrist(id4)〜Gripper_link先のLink長さ
+        L_B2 = 0.0710	# base_link〜Shoulder(id2)のLink長さ
+        L_23 = 0.0830	# Shoulder(id2)～Elbow(id3)のLink長さ
+        L_34 = 0.0935	# Elbow(id3)〜Wrist(id4)のLink長さ
+        L_4G = 0.1250	# Wrist(id4)〜Gripper_link先のLink長さ
         M_PI = math.pi  #3.14
 
         #ローカル変数準備
@@ -146,6 +146,7 @@ class move_arm:
             theta_1d+=M_PI*2
 
         theta_2d_tmp0 = math.pow(L_23,2)-math.pow(L_34,2)+math.pow(R_24,2)+math.pow(Z_24,2)
+        #theta_2d_tmp0 = math.pow(L_23,2)-math.sqrt(math.pow(L_34,2)+math.pow(R_24,2))-math.pow(L_34,2)
         theta_2d_tmp1 = 2*L_23*math.sqrt(math.pow(R_24,2)+math.pow(Z_24,2))
         if -1 <= (theta_2d_tmp0/theta_2d_tmp1) <= 1 :
             theta_2d = math.acos( theta_2d_tmp0 / theta_2d_tmp1 )
@@ -153,8 +154,9 @@ class move_arm:
             err_flg=True
  
         theta_3d_tmp0 = math.pow(L_34,2)-math.pow(L_23,2)+math.pow(R_24,2)+math.pow(Z_24,2)
+        #theta_3d_tmp0 = math.pow(L_34,2)-math.sqrt(math.pow(R_24,2)+math.pow(Z_24,2))-math.pow(L_23,2)
         theta_3d_tmp1 = 2*L_34*math.sqrt(math.pow(R_24,2)+math.pow(Z_24,2))
-        if -1 <= (theta_2d_tmp0/theta_2d_tmp1) <= 1 :
+        if -1 <= (theta_3d_tmp0/theta_3d_tmp1) <= 1 :
             theta_3d = math.acos( theta_3d_tmp0 / theta_3d_tmp1 )
         else:
             err_flg=True
