@@ -60,6 +60,8 @@ class move_arm:
 
         #初回Topic購読を待ってInit完了(安定待ち)
         self.wait_move()
+        for ch in range(1,6):
+            self.Tilt[ch]=self.Tilt_State[ch].current_pos
 
 
     ########################################
