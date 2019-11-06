@@ -6,7 +6,7 @@ import numpy as np
 from time import sleep
 import cv2
 
-import move_arm_v1 as move_arm
+#import move_arm_v1 as move_arm
 
 
 class write_char:
@@ -21,11 +21,20 @@ class write_char:
         #ARM制御準備
         if self.ARM_ON==True:
             self.arm=move_arm.move_arm()
-            self.arm.Step=1
-            self.arm.WaitMove=True
+            self.arm.Step=10
+            self.arm.WaitMove=False
 
         #パラメータ初期設定
         self.setup_param()
+
+        if self.ARM_ON==True:
+            self.arm.Step=10
+            self.arm.WaitMove=True
+            self.arm.x=(self.x_Left+self.x_Right)/2
+            self.arm.y=(self.y_Top+self.y_Bottom)/2
+            self.arm.z=self.HeightDown+0.02
+            self.arm.grip(0)
+            self.arm.move_xyz()
 
         
     ########################################
@@ -68,11 +77,13 @@ class write_char:
 
         ########################################
         #初期設定
-        self.HeightUp  = self.HeightDown + 0.030
+        self.HeightUp  = self.HeightDown + 0.020
         z=self.HeightUp
-        self.arm.move_xyz()
         x0=0
         y0=0
+        if self.ARM_ON==True:
+            self.arm.Step=10
+            self.arm.WaitMove=True
 
         ####################
         #一筆分ずつデータ取得
@@ -133,9 +144,11 @@ class write_char:
                     sleep(0.5)
                     z=self.HeightDown
                     if self.ARM_ON==True:
-                        self.arm.Step=10
+                        self.arm.Step=3
                         self.arm.z=z
+                        self.arm.WaitMove=True
                         self.arm.move_xyz()
+                        self.arm.WaitMove=False
                         self.arm.Step=1
 
                 #次回参照用のx,y座標を退避
@@ -147,9 +160,15 @@ class write_char:
             z=self.HeightUp
             if self.ARM_ON==True:
                 self.arm.z=z
-                self.arm.Step=5
+                self.arm.Step=3
+                self.arm.WaitMove=True
                 self.arm.move_xyz()
-                self.arm.Step=1
+                self.arm.WaitMove=True
+                self.arm.Step=5
+
+        if self.ARM_ON==True:
+            self.arm.Step=10
+            self.arm.WaitMove=True
 
 
         
