@@ -6,7 +6,7 @@ import numpy as np
 from time import sleep
 import cv2
 
-#import move_arm_v1 as move_arm
+import move_arm_v1 as move_arm
 
 
 class write_char:
@@ -21,15 +21,14 @@ class write_char:
         #ARM制御準備
         if self.ARM_ON==True:
             self.arm=move_arm.move_arm()
-            self.arm.Step=10
+            self.arm.Step=100
             self.arm.WaitMove=False
 
         #パラメータ初期設定
         self.setup_param()
 
         if self.ARM_ON==True:
-            self.arm.Step=10
-            self.arm.WaitMove=True
+            self.arm.Step=100
             self.arm.x=(self.x_Left+self.x_Right)/2
             self.arm.y=(self.y_Top+self.y_Bottom)/2
             self.arm.z=self.HeightDown+0.02
@@ -81,9 +80,15 @@ class write_char:
         z=self.HeightUp
         x0=0
         y0=0
+
+        #Step数制御
+        Step_atFirst=100 #初期移動
+        Step_atJump=10 #一筆間の移動
+        Step_atWrite=1 #筆記
+        Step_atPenUp=50 #PEN上げ動作
+        Step_atPenDown=50 #PEN下げ動作
         if self.ARM_ON==True:
-            self.arm.Step=10
-            self.arm.WaitMove=True
+            self.arm.Step=Step_atFirst
 
         ####################
         #一筆分ずつデータ取得
@@ -137,19 +142,18 @@ class write_char:
                         cv2.line(self.Img, (lx0,ly0), (lx,ly), self.Color, self.Thickness)
                         cv2.imshow("img", self.Img)
                         cv2.waitKey(1)
-                        #print(lx0,lx,ly0,ly)
 
                 #高さがupモードの時は、x,y移動後にペンを下げる
                 if z==self.HeightUp :
                     sleep(0.5)
                     z=self.HeightDown
                     if self.ARM_ON==True:
-                        self.arm.Step=3
+                        self.arm.Step=Step_atPenDown
                         self.arm.z=z
-                        self.arm.WaitMove=True
                         self.arm.move_xyz()
-                        self.arm.WaitMove=False
-                        self.arm.Step=1
+                        self.arm.Step=Step_atWrite
+                        sleep(0.5)
+                        self.arm.WaitMove=True
 
                 #次回参照用のx,y座標を退避
                 x0=x
@@ -159,17 +163,16 @@ class write_char:
             sleep(0.5)
             z=self.HeightUp
             if self.ARM_ON==True:
+                self.arm.WaitMove=False
                 self.arm.z=z
-                self.arm.Step=3
-                self.arm.WaitMove=True
+                self.arm.Step=Step_atPenDown
                 self.arm.move_xyz()
-                self.arm.WaitMove=True
-                self.arm.Step=5
+                self.arm.Step=Step_atJump
+                sleep(0.5)
 
+        #一文字書き終わり
         if self.ARM_ON==True:
-            self.arm.Step=10
-            self.arm.WaitMove=True
-
+            self.arm.Step=Step_atFirst
 
         
 if __name__ == '__main__':
