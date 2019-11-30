@@ -56,6 +56,7 @@ class write_char:
 
         #ペン高さ設定
         self.HeightDown=0.100
+        self.HeightDelta=0.02
 
         #画面描画用の設定
         self.Ratio=2000  #[dot/m]
@@ -76,7 +77,7 @@ class write_char:
 
         ########################################
         #初期設定
-        self.HeightUp  = self.HeightDown + 0.020
+        self.HeightUp  = self.HeightDown + self.HeightDelta
         z=self.HeightUp
         x0=0
         y0=0
