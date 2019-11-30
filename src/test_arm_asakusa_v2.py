@@ -10,7 +10,7 @@ class write_text:
     ########################################
     #INIT
     def __init__(self):
-        ARM_ON=False
+        ARM_ON=True
         GRAPH_ON=True
 
         self.wc=write_char.write_char(ARM_ON,GRAPH_ON)
