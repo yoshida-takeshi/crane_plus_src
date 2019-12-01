@@ -65,7 +65,7 @@ class test_arm:
         CampusSizeY=0.14
         CampusOffsetX=-0.10
         CampusOffsetY=+0.14
-        FontSize=0.02
+        FontSize=0.04
 
         #高さ設定
         height_down=0.100
