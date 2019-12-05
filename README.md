@@ -26,7 +26,7 @@
   
 
 ### テンキー操作の場合　(x,y,z)座標制御バージョン
-`ubuntu% rosrun crane_plus_src test_arm_tenkey2.py`  
+`ubuntu% rosrun crane_plus_src test_arm_tenkey3.py`  
   q: プログラム終了  
   8,2: y軸移動（縦）  
   6,4: x軸移動（横）  
@@ -44,3 +44,8 @@
 ## 補足
 ### 事前にインストール必要なもの
 `ubuntu% git clone git://github.com/arebgun/dynamixel_motor.git`  
+
+### USBの権限変更
+`/etc/udev/rules.d/50-udev-default.rules`  
+に下記の記述を追加  
+`KERNEL=="ttyUSB[0-9]*", GROUP="shj", MODE="0666"`  
