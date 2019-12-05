@@ -33,14 +33,8 @@
   5,0: z軸移動（上下）  
   9,3: 手首の角度   
   7,1: グリップ開閉   
-  
-  
-### バッチ処理の場合
-`ubuntu% rosrun test_moveit test_arm_asakusa.py`  
-"アサクサ"の文字を書くプログラム。  
-※ほかの動きをさせる場合は、プログラム中の座標データを変更すればいい。  
-  
-  
+
+
 ## 補足
 ### 事前にインストール必要なもの
 `ubuntu% git clone git://github.com/arebgun/dynamixel_motor.git`  
