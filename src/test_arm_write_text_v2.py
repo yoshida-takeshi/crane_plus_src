@@ -8,9 +8,9 @@ import re
 import rospy
 import numpy as np
 
-sys.path.append("/home/ubuntu/ros_groupE_ws/src/jtalk_src/src/")
+#sys.path.append("/home/ubuntu/ros_groupE_ws/src/jtalk_src/src/")
 import write_char_v1 as write_char
-import test_jtalk_v1 as jtalk
+#import test_jtalk_v1 as jtalk
 
 
 class write_text:
@@ -25,7 +25,7 @@ class write_text:
         self.setup_param()
         self.main_loop(CmdFile)
 
-        self.jt=jtalk.jtalk()
+        #self.jt=jtalk.jtalk()
 
 
     ########################################
