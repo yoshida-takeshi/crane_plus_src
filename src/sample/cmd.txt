@@ -1,0 +1,10 @@
+#test
+speak AAA
+
+fontsize 0.05
+locate -0.10 0.24
+write ./fontdata/sample1/asa.npy
+
+locate 0.00 0.28
+fontsize 0.10
+write ./fontdata/sample1/kusa.npy
