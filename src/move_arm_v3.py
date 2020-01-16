@@ -36,7 +36,10 @@ class move_arm:
         
         ####################
         #ROS設定
-        rospy.init_node('move_arm', anonymous=True)
+        try:
+            rospy.init_node('move_arm', anonymous=True)
+        except rospy.exceptions.ROSException:
+            print("Information: skip init_node")
         self.RosRate = rospy.Rate(100)
 
         self.Tilt_Pub=[0,0,0,0,0,0]

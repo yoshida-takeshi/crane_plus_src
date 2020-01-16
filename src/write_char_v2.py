@@ -6,7 +6,7 @@ import numpy as np
 from time import sleep
 import cv2
 
-import move_arm_v1 as move_arm
+import move_arm_v2 as move_arm
 
 
 class write_char:
@@ -31,7 +31,7 @@ class write_char:
             self.arm.Step=100
             self.arm.x=(self.x_Left+self.x_Right)/2
             self.arm.y=(self.y_Top+self.y_Bottom)/2
-            self.arm.z=self.HeightDown+0.02
+            self.arm.z=self.HeightDown+0.1
             self.arm.grip(0)
             self.arm.move_xyz()
 
@@ -50,13 +50,17 @@ class write_char:
         self.y_Bottom = self.CampusOffsetY
 
         #文字制御関連
-        self.FontSize=0.15
+        #self.FontSize=0.15
+        self.FontSize=0.23
         self.Rotate=0 #文字回転(0-3)
         self.DeltaTh=0.005 #移動処理スキップの閾値
 
         #ペン高さ設定
-        self.HeightDown=0.18
-        self.HeightDelta=0.10
+        #self.HeightDown=0.18
+        #self.HeightDelta=0.10
+        self.HeightDown=0.01
+        self.HeightDelta=0.1
+
 
         #画面描画用の設定
         self.Ratio=1000  #[dot/m]
