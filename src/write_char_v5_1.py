@@ -134,7 +134,7 @@ class write_char:
                 if abs(x-x0)+abs(y-y0)<self.DeltaTh: continue
 
                 #アームを動かす
-                if self.ARM_ON == True and VectData1[2] == 0:
+                if self.ARM_ON == True and FontFlg == 0:
                     self.arm.x=x
                     self.arm.y=y
                     self.arm.z=z-((x*x+y*y)**0.5)*0.05
@@ -142,7 +142,7 @@ class write_char:
                     sleep(0.05)
                 #Z軸制御 はらい 止め
                 #はらい
-                if self.ARM_ON == True and VectData1[2] == 1:
+                if self.ARM_ON == True and FontFlg == 1:
                     self.arm.x = x
                     self.arm.y = y
                     self.arm.z = z-((x*x+y*y)**0.5)*0.05+0.001
@@ -150,7 +150,7 @@ class write_char:
                     self.arm.move_xyz()
                     sleep(0.01)
                 #止め
-                if self.ARM_ON == True and VectData1[2] == 2:
+                if self.ARM_ON == True and FontFlg == 2:
                     self.arm.x = x
                     self.arm.y = y
                     self.arm.z=z-((x*x+y*y)**0.5)*0.05-0.001
