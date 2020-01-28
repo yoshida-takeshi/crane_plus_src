@@ -137,7 +137,7 @@ class write_char:
                 if self.ARM_ON == True and FontFlg == 0:
                     self.arm.x=x
                     self.arm.y=y
-                    self.arm.z=z-((x*x+y*y)**0.5)*0.05
+                    self.arm.z=z
                     self.arm.move_xyz()
                     sleep(0.05)
                 #Z軸制御 はらい 止め
@@ -145,7 +145,7 @@ class write_char:
                 if self.ARM_ON == True and FontFlg == 1:
                     self.arm.x = x
                     self.arm.y = y
-                    self.arm.z = z-((x*x+y*y)**0.5)*0.05+0.001
+                    self.arm.z = z+0.001
                     #self.arm.z += 0.001
                     self.arm.move_xyz()
                     sleep(0.01)
@@ -153,8 +153,7 @@ class write_char:
                 if self.ARM_ON == True and FontFlg == 2:
                     self.arm.x = x
                     self.arm.y = y
-                    self.arm.z=z-((x*x+y*y)**0.5)*0.05-0.001
-                    #self.arm.z -= 0.001
+                    self.arm.z=z-0.001
                     self.arm.move_xyz()
                     sleep(0.1)
 

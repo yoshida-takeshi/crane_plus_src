@@ -135,6 +135,11 @@ class move_arm:
         x=self.x
         y=self.y
         z=self.z
+
+        #Z軸補正変数
+        z_modify = ((x*x + y*y) ** 0.5) * 0.05
+        z-=z_modify
+
         wrist_arg=self.wrist_arg
         err_flg = False
  
