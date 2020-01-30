@@ -190,20 +190,21 @@ class write_char:
                         key = raw_input('Please enter to resume.') #forDebug
 
                         #SERVO負荷を見ながらz軸を少しずつ下ろす処理
-                        for z in np.arange(self.HeightUp,self.HeightDown-0.01,-0.001):
+                        r = (2 * Offset ** 2) ** 0.5  # x,yからoffsetされたx,yまでの距離
+                        rz = (r ** 2 + (self.HeightUp - self.HeightDown) ** 2) ** 0.5  # 着地点からoffsetされたx,y,zまでの距離
+                        nz = rz / 0.001  # 0.001でrzを分割
+                        tmp_i=0
+                        while(tmp_i<r):
                             self.arm.z=z
                             #斜めに下ろす場合はx,y座標もずらしていく
                             if True: #FontFlg==1:
-                                r=(2*Offset**2)**0.5 #x,yからoffsetされたx,yまでの距離
-                                rz=(r**2+(self.HeightUp-self.HeightDown)**2)**0.5 #着地点からoffsetされたx,y,zまでの距離
-                                nz=rz/0.001 #0.001でrzを分割
-
-                                self.arm.x+=Offset/(self.HeightUp-self.HeightDown)*0.001
-                                self.arm.y-=Offset/(self.HeightUp-self.HeightDown)*0.001
+                                self.arm.x-=(r-tmp_i)/(2**0.5)
+                                self.arm.y+=(r-tmp_i)/(2**0.5)
                                 if self.arm.x > x : self.arm.x=x
                                 if self.arm.y < y : self.arm.y=y
                             self.arm.move_xyz()
                             sleep(0.01)
+                            tmp_i+=r/nz
                             #SERVO負荷で設置検出できたら終了
                             if self.check_load(2):
                                 break
