@@ -194,10 +194,6 @@ class write_char:
                             self.arm.z=z
                             #斜めに下ろす場合はx,y座標もずらしていく
                             if True: #FontFlg==1:
-                                r=(2*Offset**2)**0.5 #x,yからoffsetされたx,yまでの距離
-                                rz=(r**2+(self.HeightUp-self.HeightDown)**2)**0.5 #着地点からoffsetされたx,y,zまでの距離
-                                nz=rz/0.001 #0.001でrzを分割
-
                                 self.arm.x+=Offset/(self.HeightUp-self.HeightDown)*0.001
                                 self.arm.y-=Offset/(self.HeightUp-self.HeightDown)*0.001
                                 if self.arm.x > x : self.arm.x=x
