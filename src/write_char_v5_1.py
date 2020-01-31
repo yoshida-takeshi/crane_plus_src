@@ -46,19 +46,19 @@ class write_char:
     #パラメータ初期設定
     def setup_param(self):
         #描画サイズの定義
-        self.CampusSizeX=0.23
-        self.CampusSizeY=0.23
-        self.CampusOffsetX=-0.115
-        self.CampusOffsetY=+0.12
+        self.CampusSizeX=0.22
+        self.CampusSizeY=0.22
+        self.CampusOffsetX=-0.11
+        self.CampusOffsetY=+0.11
         self.x_Left   = self.CampusOffsetX
         self.x_Right  = self.CampusOffsetX + self.CampusSizeX
         self.y_Top    = self.CampusOffsetY + self.CampusSizeY
         self.y_Bottom = self.CampusOffsetY
 
         #文字制御関連
-        self.FontSize=0.23
+        self.FontSize=0.22
         self.Rotate=0 #文字回転(0-3)
-        self.DeltaTh=0.003 #移動処理スキップの閾値
+        self.DeltaTh=0.0013 #移動処理スキップの閾値
 
         #ペン高さ設定
         self.HeightDown=0.01
@@ -134,7 +134,7 @@ class write_char:
                 if abs(x-x0)+abs(y-y0)<self.DeltaTh: continue
 
                 #アームを動かす
-                if self.ARM_ON == True and FontFlg == 0:
+                if self.ARM_ON == True and 0 <= FontFlg < 10:
                     self.arm.x=x
                     self.arm.y=y
                     self.arm.z=z
@@ -142,21 +142,42 @@ class write_char:
                     sleep(0.05)
                 #Z軸制御 はらい 止め
                 #はらい
-                if self.ARM_ON == True and FontFlg == 1:
+                if self.ARM_ON == True and 20 <= FontFlg < 30:
                     self.arm.x = x
                     self.arm.y = y
-                    self.arm.z = z+0.001
-                    #self.arm.z += 0.001
+                    self.arm.z += 0.001
                     self.arm.move_xyz()
                     sleep(0.01)
                 #止め
-                if self.ARM_ON == True and FontFlg == 2:
+                if self.ARM_ON == True and 30 <= FontFlg < 40:
                     self.arm.x = x
                     self.arm.y = y
-                    self.arm.z=z-0.001
+                    self.arm.z -= 0.001
+                    self.arm.move_xyz()
+                    sleep(0.3)
+                #Hane
+                if self.ARM_ON == True and 40 <= FontFlg < 50:
+                    self.arm.x = x
+                    self.arm.y = y
+                    self.arm.z += 0.0015
+                    self.arm.move_xyz()
+                    sleep(0.001)
+                #Ten
+                if self.ARM_ON == True and 50 <= FontFlg < 60:
+                    self.arm.x = x
+                    self.arm.y = y
+                    self.arm.z -= 0.001
                     self.arm.move_xyz()
                     sleep(0.1)
-
+                #Ore
+                if self.ARM_ON == True and 60 <= FontFlg < 70:
+                    self.arm.WaitMove=True
+                    self.arm.x = x
+                    self.arm.y = y
+                    self.arm.z = z
+                    self.arm.move_xyz()
+                    sleep(0.3)
+                    self.arm.WaitMove=False
 
                 #高さがdownモードの時は、画面にもライン描画
                 if z==self.HeightDown :
@@ -229,7 +250,7 @@ class write_char:
                 y0=y
 
             #一筆分が終了したら、ペンを上げる
-            sleep(1.5)
+            sleep(0.01)
             z=self.HeightUp
             if self.ARM_ON==True:
                 self.arm.WaitMove=False
@@ -250,7 +271,7 @@ class write_char:
     #1文字分の文字書き関数
     def check_load(self,ch):
         ret=False
-        LoadTh=-0.001
+        LoadTh=-0.002
         l=[0,0,0,0,0,0]
         l[1]=self.arm.Tilt_State[1].load
         l[2]=self.arm.Tilt_State[2].load
