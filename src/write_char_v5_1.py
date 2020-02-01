@@ -211,17 +211,18 @@ class write_char:
                         key = raw_input('Please enter to resume.') #forDebug
 
                         #SERVO負荷を見ながらz軸を少しずつ下ろす処理
-                        for z in np.arange(self.HeightUp,self.HeightDown-0.01,-0.001):
+                        z_unit=0.001
+                        for z in np.arange(self.HeightUp,self.HeightDown-0.01,-1*z_unit):
                             self.arm.z=z
                             #斜めに下ろす場合はx,y座標もずらしていく
                             if True: #FontFlg==1:
-                                self.arm.x+=Offset/(self.HeightUp-self.HeightDown)*0.001
-                                self.arm.y-=Offset/(self.HeightUp-self.HeightDown)*0.001
+                                self.arm.x+=Offset/(self.HeightUp-self.HeightDown)*z_unit
+                                self.arm.y-=Offset/(self.HeightUp-self.HeightDown)*z_unit
                                 if self.arm.x > x : self.arm.x=x
                                 if self.arm.y < y : self.arm.y=y
                             self.arm.move_xyz()
                             sleep(0.01)
-                            #SERVO負荷で設置検出できたら終了
+                            #SERVO負荷で接地検出できたら終了
                             if self.check_load(2):
                                 break
 
@@ -229,21 +230,7 @@ class write_char:
                         self.HightDown=z
 
                         key = raw_input('Please enter to resume.') #forDebug
-
-                        ##self.arm.WaitMove=False
-                        ##self.arm.Step=Step_atPenDown
-                        ##self.arm.z=z
-                        ##self.arm.z = self.HeightUp
-                        ##self.arm.x=x-0.04
-                        ##self.arm.y=y+0.04
-                        ##self.arm.move_xyz()
-                        ##self.arm.z=self.HeightDown
-                        ##self.arm.x=x
-                        ##self.arm.y=y
-                        ##self.arm.move_xyz()
-                        ##self.arm.Step=Step_atWrite
                         sleep(1.0)
-#change
 
                 #次回参照用のx,y座標を退避
                 x0=x
@@ -268,7 +255,50 @@ class write_char:
 
 
     ########################################
-    #1文字分の文字書き関数
+    #墨を付ける動作
+    def refill(self,x,y):
+        Step_atJump=100 #一筆間の移動
+        Step_atPenUp=50 #PEN上げ動作
+        Step_atPenDown=1 #PEN下げ動作
+
+        self.arm.WaitMove=False
+        self.arm.Step=Step_atJump
+        self.arm.x = x
+        self.arm.y = y
+        self.arm.move_xyz()
+
+        #SERVO負荷を見ながらz軸を少しずつ下ろす処理
+        z_unit=0.001
+        self.arm.Step=Step_atPenDown
+        self.arm.WaitMove=False
+        for z in np.arange(self.HeightUp,self.HeightDown-0.01,-1*z_unit):
+            self.arm.z=z
+            self.arm.move_xyz()
+            sleep(0.01)
+            #SERVO負荷で接地検出できたら終了
+            if self.check_load(2):
+                break
+
+        #すずりの中で筆を移動させる
+        self.arm.WaitMove=False
+        self.arm.Step=100
+        self.arm.x += 0
+        self.arm.y += -0.05
+        self.arm.z += +0.03
+        self.arm.move_xyz()
+        sleep(0.5)
+
+        #筆を上げる
+        self.arm.WaitMove=False
+        self.arm.Step=Step_atPenUp
+        self.arm.z = self.HeightUp
+        self.arm.move_xyz()
+        sleep(1.0)
+
+
+
+    ########################################
+    #SERVO負荷チェック
     def check_load(self,ch):
         ret=False
         LoadTh=-0.002
