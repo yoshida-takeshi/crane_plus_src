@@ -140,12 +140,12 @@ class write_char:
                     self.arm.z=z
                     self.arm.move_xyz()
                     sleep(0.05)
-                #Z軸制御 はらい 止め
+                #永字八法
                 #はらい
                 if self.ARM_ON == True and 20 <= FontFlg < 30:
                     self.arm.x = x
                     self.arm.y = y
-                    self.arm.z += 0.001
+                    self.arm.z += 0.0003
                     self.arm.move_xyz()
                     sleep(0.01)
                 #止め
@@ -155,28 +155,38 @@ class write_char:
                     self.arm.z -= 0.001
                     self.arm.move_xyz()
                     sleep(0.3)
-                #Hane
+                #はね
                 if self.ARM_ON == True and 40 <= FontFlg < 50:
-                    self.arm.x = x
-                    self.arm.y = y
-                    self.arm.z += 0.0015
+                    self.arm.x -= 0.002
+                    self.arm.y += 0.002
+                    self.arm.z += 0.001
                     self.arm.move_xyz()
                     sleep(0.001)
-                #Ten
+                #点
                 if self.ARM_ON == True and 50 <= FontFlg < 60:
                     self.arm.x = x
                     self.arm.y = y
                     self.arm.z -= 0.001
                     self.arm.move_xyz()
                     sleep(0.1)
-                #Ore
-                if self.ARM_ON == True and 60 <= FontFlg < 70:
+                #折れ
+                if self.ARM_ON == True and FontFlg == 60:
+                    self.arm.x = x
+                    self.arm.y = y
+                    self.arm.z -= 0.001
+                    self.arm.move_xyz()
+                    sleep(0.3)
+
+                if self.ARM_ON == True and FontFlg == 61:
                     self.arm.WaitMove=True
                     self.arm.x = x
                     self.arm.y = y
-                    self.arm.z = z
+                    self.arm.z += 0.02
                     self.arm.move_xyz()
                     sleep(0.3)
+                    self.arm.z -= 0.02
+                    self.arm.move_xyz()
+                    sleep(0.1)
                     self.arm.WaitMove=False
 
                 #高さがdownモードの時は、画面にもライン描画
