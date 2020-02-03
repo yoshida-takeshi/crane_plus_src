@@ -31,7 +31,7 @@ class write_text:
             #浅草
             y=self.wc.y_Bottom+0.21
             x=-self.wc.FontSize/2
-            data = np.load("/home/ubuntu/ros_groupE_ws/src/crane_plus_src/src/fontdata/sample4/eiji_plus_flag2.npy")
+            data = np.load("/home/ubuntu/ros_groupE_ws/src/crane_plus_src/src/fontdata/sample4/eiji_plus_flag.npy")
             self.wc.write_char(data,x,y)
            
 #            x=x+self.wc.FontSize
