@@ -157,9 +157,9 @@ class write_char:
                     sleep(0.3)
                 #はね
                 if self.ARM_ON == True and 40 <= FontFlg < 50:
-                    self.arm.x -= 0.002
-                    self.arm.y += 0.002
-                    self.arm.z += 0.001
+                    self.arm.x -= 0.0015
+                    self.arm.y += 0.0015
+                    self.arm.z += 0.0005
                     self.arm.move_xyz()
                     sleep(0.001)
                 #点
@@ -175,7 +175,7 @@ class write_char:
                     self.arm.y = y
                     self.arm.z -= 0.001
                     self.arm.move_xyz()
-                    sleep(0.3)
+                    sleep(0.5)
 
                 if self.ARM_ON == True and FontFlg == 61:
                     self.arm.WaitMove=True
@@ -237,7 +237,8 @@ class write_char:
                                 break
 
                         #self.HightDownも実測値に合わせて更新しておく
-                        self.HightDown=z
+                        self.HightDown=z+0.001
+                        #z+=0.003 #Z make weaker
 
                         key = raw_input('Please enter to resume.') #forDebug
                         sleep(1.0)
