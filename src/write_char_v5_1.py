@@ -142,8 +142,15 @@ class write_char:
                     sleep(0.05)
                 #永字八法
                 #はらい
-                if self.ARM_ON == True and 20 <= FontFlg < 30:
+                if self.ARM_ON == True and 20 <= FontFlg < 22:
                     self.arm.x = x
+                    self.arm.y = y
+                    self.arm.z += 0.0003
+                    self.arm.move_xyz()
+                    sleep(0.01)
+                #Migiharai
+                if self.ARM_ON == True and 22 <= FontFlg < 30:
+                    self.arm.x += 0.003
                     self.arm.y = y
                     self.arm.z += 0.0003
                     self.arm.move_xyz()
@@ -155,13 +162,21 @@ class write_char:
                     self.arm.z -= 0.001
                     self.arm.move_xyz()
                     sleep(0.3)
-                #はね
-                if self.ARM_ON == True and 40 <= FontFlg < 50:
-                    self.arm.x -= 0.0015
-                    self.arm.y += 0.0015
+                #hidariはね
+                if self.ARM_ON == True and 40 <= FontFlg < 41:
+                    self.arm.x -= 0.002
+                    self.arm.y += 0.002
                     self.arm.z += 0.0005
                     self.arm.move_xyz()
                     sleep(0.001)
+                #hane
+                if self.ARM_ON == True and 41 <= FontFlg < 50:
+                    self.arm.x -= 0.0015
+                    self.arm.y += 0.0015
+                    self.arm.z += 0.0003
+                    self.arm.move_xyz()
+                    sleep(0.001)
+
                 #点
                 if self.ARM_ON == True and 50 <= FontFlg < 60:
                     self.arm.x = x
@@ -237,7 +252,7 @@ class write_char:
                                 break
 
                         #self.HightDownも実測値に合わせて更新しておく
-                        self.HightDown=z+0.001
+                        self.HightDown=z+0.002
                         #z+=0.003 #Z make weaker
 
                         key = raw_input('Please enter to resume.') #forDebug
