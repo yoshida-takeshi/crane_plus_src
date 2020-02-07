@@ -49,7 +49,7 @@ class write_char:
         self.CampusSizeX=0.22
         self.CampusSizeY=0.22
         self.CampusOffsetX=-0.11
-        self.CampusOffsetY=+0.11
+        self.CampusOffsetY=+0.13
         self.x_Left   = self.CampusOffsetX
         self.x_Right  = self.CampusOffsetX + self.CampusSizeX
         self.y_Top    = self.CampusOffsetY + self.CampusSizeY
@@ -145,12 +145,12 @@ class write_char:
                 if self.ARM_ON == True and 20 <= FontFlg < 22:
                     self.arm.x = x
                     self.arm.y = y
-                    self.arm.z += 0.0003
+                    self.arm.z += 0.0001
                     self.arm.move_xyz()
                     sleep(0.01)
                 #Migiharai
                 if self.ARM_ON == True and 22 <= FontFlg < 30:
-                    self.arm.x += 0.003
+                    self.arm.x += 0.001
                     self.arm.y = y
                     self.arm.z += 0.0003
                     self.arm.move_xyz()
@@ -165,8 +165,8 @@ class write_char:
                 #hidariはね
                 if self.ARM_ON == True and 40 <= FontFlg < 41:
                     self.arm.x -= 0.002
-                    self.arm.y += 0.002
-                    self.arm.z += 0.0005
+                    self.arm.y += 0.0025
+                    self.arm.z += 0.001
                     self.arm.move_xyz()
                     sleep(0.001)
                 #hane
@@ -233,7 +233,7 @@ class write_char:
                             self.arm.Step=Step_atJump
                             self.arm.move_xyz()
                             self.arm.Step=Step_atPenDown
-                        key = raw_input('Please enter to resume.') #forDebug
+#                        key = raw_input('Please enter to resume.') #forDebug
 
                         #SERVO負荷を見ながらz軸を少しずつ下ろす処理
                         z_unit=0.001
@@ -249,13 +249,13 @@ class write_char:
                             sleep(0.01)
                             #SERVO負荷で接地検出できたら終了
                             if self.check_load(2):
+                                self.HightDown = z +0.005
                                 break
 
                         #self.HightDownも実測値に合わせて更新しておく
-                        self.HightDown=z+0.002
-                        #z+=0.003 #Z make weaker
+                        #self.HightDown=z+0.001
 
-                        key = raw_input('Please enter to resume.') #forDebug
+#                        key = raw_input('Please enter to resume.') #forDebug
                         sleep(1.0)
 
                 #次回参照用のx,y座標を退避
@@ -273,7 +273,7 @@ class write_char:
                 self.arm.Step=Step_atJump
                 self.arm.WaitMove=False
                 sleep(1.5)
-            self.HeightDown =0.01
+            #self.HeightDown =0.01
 
         #一文字書き終わり
         if self.ARM_ON==True:
