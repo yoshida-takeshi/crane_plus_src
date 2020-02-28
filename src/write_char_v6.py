@@ -205,7 +205,7 @@ class write_char:
                     self.arm.WaitMove=False
 
                 #高さがdownモードの時は、画面にもライン描画
-                if z==self.HeightDown :
+                if z!=self.HeightUp:
                     #描画用座標算出してラインを引く
                     lx0=int((x0-self.CampusOffsetX)*self.Ratio)
                     lx =int((x -self.CampusOffsetX)*self.Ratio)
